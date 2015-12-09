@@ -12,7 +12,7 @@ def main():
     basehash.update(base)
     output = ""
     number = 0
-    while output[:7] != "0000000":
+    while output[:5] != "00000":
         number += 1
         copy = basehash.copy()
         output = dohash(str(number), copy)
