@@ -1,5 +1,3 @@
-
-
 class Command:
     def __init__(self, term="", start=[], end=[]):
         self.stateChange = term
@@ -26,21 +24,33 @@ def parse(line):
             command.setstatechange(words[1])
     command.setstartdim(words[-3].split(','))
     command.setenddim(words[-1].split(','))
-    #print("done parsing " + line)
     return command
 
-def execute(command, lightfield):
+def executepart2(command, lightfield):
     lightchange = 0
     if command.stateChange == "on":
         lightchange = 1
     elif command.stateChange == "off":
         lightchange = -1
     elif command.stateChange == "toggle":
-        lightchange= 2
+        lightchange = 2
 
     for x in range(int(command.startDim[0]), int(command.endDim[0]) + 1):
         for y in range(int(command.startDim[1]), int(command.endDim[1]) + 1):
             lightfield[x][y] += lightchange
+            if lightfield[x][y] < 0:
+                lightfield[x][y] = 0
+    return lightfield
+
+def executepart1(command, lightfield):
+    for x in range(int(command.startDim[0]), int(command.endDim[0]) + 1):
+        for y in range(int(command.startDim[1]), int(command.endDim[1]) + 1):
+                if command.stateChange == "on":
+                    lightfield[x][y] = 1
+                elif command.stateChange == "off":
+                    lightfield[x][y] = 0
+                elif command.stateChange == "toggle":
+                    lightfield[x][y] = 0 if lightfield[x][y] == 1 else 1
     return lightfield
 
 def initlist():
@@ -49,17 +59,22 @@ def initlist():
 
 def main():
     data = open('input.txt')
-    lightfield = initlist()
+    lightfield1 = initlist()
+    lightfield2 = initlist()
     for line in data:
         command = parse(line)
-        lightfield = execute(command, lightfield)
+        lightfield1 = executepart1(command, lightfield1)
+        lightfield2 = executepart2(command, lightfield2)
 
-    count = 0
+    count1 = 0
+    count2 = 0
     for x in range(1000):
         for y in range(1000):
-            if lightfield[x][y] > 0:
-                count += lightfield[x][y]
-                # print("found light on at " + str(x) + ", " + str(y))
-    print("The total brightness is " + str(count))
+            if lightfield1[x][y] > 0:
+                count1 += 1
+            if lightfield2[x][y] > 0:
+                count2 += lightfield2[x][y]
+    print("There are " + str(count1) + " lights lit")
+    print("The total brightness is " + str(count2))
 
 main()
