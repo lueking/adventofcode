@@ -1,7 +1,7 @@
 totallength = 0
 modlength = 0
 genlen = 0
-for line in open("input3.txt").read().split("\n"):
+for line in open("input.txt").read().split("\n"):
     length = len(line)
     totallength += length
     for x in ["\"", "\\"]:
