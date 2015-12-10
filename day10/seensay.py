@@ -9,17 +9,15 @@ def seensay(data):
             output += str(strlen) + lastchar
             strlen = 1
         lastchar = x
-    output += str(strlen) + lastchar
-    return output
+    return output + str(strlen) + lastchar
 
 def main():
     data = "3113322113"
-    part1 = part2 = data
-    for x in range(40):
-        part1 = seensay(part1)
-    for x in range(50):
-        part2 = seensay(part2)
-    print(len(part1))
-    print(len(part2))
+    for _ in range(40):
+        data = seensay(data)
+    print(len(data))
+    for _ in range(10):
+        data = seensay(data)
+    print(len(data))
 
 main()
