@@ -27,6 +27,4 @@ def main():
         total += 1
         nice += 1 if not isnaughty(line) and hasdubs(line) and hasvowels(line) else 0
     print(nice)
-
-
 main()
